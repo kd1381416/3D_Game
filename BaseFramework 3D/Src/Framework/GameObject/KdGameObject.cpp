@@ -2,6 +2,9 @@
 
 #include<Src/Application/main.h>
 
+#include<MyFramework/Manager/JsonManager/JsonManager.h>
+#include <MyFramework/Manager/JsonManager/JsonUtility/JsonUtility.h>
+
 void KdGameObject::DrawDebug()
 {
 	// 早期リターン
@@ -65,7 +68,13 @@ bool KdGameObject::Intersects(const KdCollider::RayInfo& targetShape, std::list<
 
 void KdGameObject::JsonInput(const nlohmann::json& _injson)
 {
-	const auto& _utility = Application::Instance().GetJsonManagerClass();
+	const auto& _utility = Application::Instance().GetJsonManagerClass()->GetJsonUtirity();
+
+	if (_injson.contains("Path"))	m_path		= _injson["Path"];
+	if (_injson.contains("Pos"))	m_position	= _utility->JsonToVector3(_injson["Pos"]);
+	if (_injson.contains("Scale"))	m_scale		= _utility->JsonToVector3(_injson["Scale"]);
+	if (_injson.contains("Degree"))	m_degree	= _utility->JsonToVector3(_injson["Degree"]);
+	if (_injson.contains("Color"))	m_color		= _utility->JsonToVector4(_injson["Color"]);
 }
 
 void KdGameObject::JsonSave(nlohmann::json & _injson)

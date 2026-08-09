@@ -86,6 +86,21 @@ protected:
 	// 3D空間に存在する機能
 	Math::Matrix	m_mWorld;
 
+	// 位置
+	Math::Vector3 m_position = Math::Vector3::Zero;
+
+	// 拡大率
+	Math::Vector3 m_scale = Math::Vector3::Zero;
+
+	// 回転
+	Math::Vector3 m_degree = Math::Vector3::Zero;
+
+	// カラー
+	Math::Color m_color = Math::Vector4::One;
+
+	// モデルのロードパス
+	std::string m_path;
+
 	// 当たり判定クラス
 	std::unique_ptr<KdCollider> m_pCollider = nullptr;
 

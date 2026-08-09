@@ -10,7 +10,7 @@
 
 void JsonDeserialize::JsonToObject() const
 {
-	std::string	_name = SceneManager::Instance().GetCurrentScene()->GetSceneName();
+	std::string _name = SceneManager::Instance().GetCurrentScene()->GetSceneName();
 
 	nlohmann::json _json = JsonDeserializeFunc("Json/" + _name);
 

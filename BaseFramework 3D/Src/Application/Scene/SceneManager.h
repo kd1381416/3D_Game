@@ -57,7 +57,7 @@ private :
 
 private:
 
-	SceneManager() { Init(); }
+	SceneManager() {}
 	~SceneManager() {}
 
 public:

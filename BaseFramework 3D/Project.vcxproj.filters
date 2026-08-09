@@ -112,8 +112,11 @@
     <Filter Include="Src\MyFramework\Manager\JsonManager\JsonSerialize">
       <UniqueIdentifier>{1e6f7eab-5581-434b-af0f-958a32c49881}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Src\Application\GameObject\Stage">
+    <Filter Include="Src\Application\GameObject\Ground">
       <UniqueIdentifier>{c5217e7c-5381-4af4-9876-974b31d07a02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\GameObject\Ground\Field">
+      <UniqueIdentifier>{50f7245e-a227-4188-b691-681533669478}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -318,8 +321,11 @@
     <ClInclude Include="Src\MyFramework\Manager\JsonManager\JsonSerialize\JsonSerialize.h">
       <Filter>Src\MyFramework\Manager\JsonManager\JsonSerialize</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Application\GameObject\Stage\StageBase.h">
-      <Filter>Src\Application\GameObject\Stage</Filter>
+    <ClInclude Include="Src\Application\GameObject\Ground\GroundBase.h">
+      <Filter>Src\Application\GameObject\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\GameObject\Ground\Field\Field.h">
+      <Filter>Src\Application\GameObject\Ground\Field</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -491,8 +497,11 @@
     <ClCompile Include="Src\MyFramework\Manager\JsonManager\JsonSerialize\JsonSerialize.cpp">
       <Filter>Src\MyFramework\Manager\JsonManager\JsonSerialize</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Application\GameObject\Stage\StageBase.cpp">
-      <Filter>Src\Application\GameObject\Stage</Filter>
+    <ClCompile Include="Src\Application\GameObject\Ground\GroundBase.cpp">
+      <Filter>Src\Application\GameObject\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\GameObject\Ground\Field\Field.cpp">
+      <Filter>Src\Application\GameObject\Ground\Field</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
