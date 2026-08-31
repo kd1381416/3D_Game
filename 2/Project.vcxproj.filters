@@ -94,6 +94,21 @@
     <Filter Include="Src\Application\GameObject\Player">
       <UniqueIdentifier>{152a26e9-f647-4ee1-9dfe-46aba2d43359}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\Application\GameObject\Bullet">
+      <UniqueIdentifier>{de7a9922-08d7-43d1-9d75-e3637e6fc003}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\GameObject\Reticle">
+      <UniqueIdentifier>{42bb849f-527e-4f13-9181-099fe74dd4a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\GameObject\Enemy">
+      <UniqueIdentifier>{32ba0658-32ed-46a4-bd53-021472ad1fc4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\GameObject\Enemy\Enemy1">
+      <UniqueIdentifier>{e2bf6ea2-845e-40bf-959f-e76dcb731387}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\GameObject\SkyDoom">
+      <UniqueIdentifier>{90242f9e-ea66-41bd-aafd-25f8b4326478}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Pch.h">
@@ -285,6 +300,21 @@
     <ClInclude Include="Src\Application\GameObject\Player\Player.h">
       <Filter>Src\Application\GameObject\Player</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Application\GameObject\Bullet\Bullet.h">
+      <Filter>Src\Application\GameObject\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\GameObject\Reticle\Reticle.h">
+      <Filter>Src\Application\GameObject\Reticle</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\GameObject\Enemy\EnemyBase.h">
+      <Filter>Src\Application\GameObject\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\GameObject\Enemy\Enemy1\Enemy1.h">
+      <Filter>Src\Application\GameObject\Enemy\Enemy1</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\GameObject\SkyDoom\SkyDoom.h">
+      <Filter>Src\Application\GameObject\SkyDoom</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pch.cpp">
@@ -445,6 +475,21 @@
     </ClCompile>
     <ClCompile Include="Src\Application\GameObject\Player\Player.cpp">
       <Filter>Src\Application\GameObject\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\GameObject\Bullet\Bullet.cpp">
+      <Filter>Src\Application\GameObject\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\GameObject\Reticle\Reticle.cpp">
+      <Filter>Src\Application\GameObject\Reticle</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\GameObject\Enemy\EnemyBase.cpp">
+      <Filter>Src\Application\GameObject\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\GameObject\Enemy\Enemy1\Enemy1.cpp">
+      <Filter>Src\Application\GameObject\Enemy\Enemy1</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\GameObject\SkyDoom\SkyDoom.cpp">
+      <Filter>Src\Application\GameObject\SkyDoom</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

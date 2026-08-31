@@ -34,6 +34,8 @@ public :
 	// 現在のシーンにオブジェクトを追加
 	void AddObject(const std::shared_ptr<KdGameObject>& _obj);
 
+	std::shared_ptr<BaseScene> GetCurrentScene() { return m_currentScene; }
+		
 private :
 
 	// マネージャーの初期化
