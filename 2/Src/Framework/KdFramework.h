@@ -79,3 +79,9 @@
 
 // フォント管理クラス
 #include "Font/KdFont.h"
+
+//Json(2026/09/03追記)
+#include "json.hpp"
+
+//Json管理クラス(2026/09/03追記)
+#include "../MyFramework/JsonManager/JsonManager.h"

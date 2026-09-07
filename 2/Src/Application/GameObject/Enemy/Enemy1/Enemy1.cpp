@@ -7,6 +7,8 @@
 #include<Application/Scene/SceneManager.h>
 #include<Application/Scene/GameScene/GameScene.h>
 
+#include<Application/System/EnemySystem/EnemySystem.h>
+
 void Enemy1::Init()
 {
 	m_spModel = std::make_shared<KdModelWork>();
@@ -69,7 +71,7 @@ void Enemy1::Update()
 		m_spModel->CalcNodeMatrices();
 	}
 
-	for(auto& obj : m_owner->GetEnemyList())
+	for(auto& obj : m_owner->GetEnemySystem()->GetEnemyList())
 	{
 		auto _enemy = obj.lock();
 

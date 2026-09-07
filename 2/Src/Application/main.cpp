@@ -97,7 +97,7 @@ void Application::KdBeginDraw(bool usePostProcess)
 void Application::KdPostDraw()
 {
 	// Imguiのレンダリング
-	KdDebugGUI::Instance().GuiProcess();
+	//KdDebugGUI::Instance().GuiProcess();
 
 	// BackBuffer -> 画面表示
 	KdDirect3D::Instance().WorkSwapChain()->Present(0, 0);
@@ -192,7 +192,7 @@ bool Application::Init(int w, int h)
 	//===================================================================
 	// imgui初期化
 	//===================================================================
-	KdDebugGUI::Instance().GuiInit(w, h);
+	//KdDebugGUI::Instance().GuiInit(w, h);
 
 	//===================================================================
 	// シェーダー初期化
@@ -214,6 +214,15 @@ bool Application::Init(int w, int h)
 	//===================================================================
 	// 例えばカーソルを消したい場合
 	ShowCursor(false);
+
+
+	//ImGuiStyle& style = ImGui::GetStyle();
+
+	//style.WindowRounding = 8.0f;
+	//style.ChildRounding = 6.0f;
+	//style.FrameRounding = 5.0f;
+	//style.PopupRounding = 5.0f;
+	//style.GrabRounding = 5.0f;
 
 	return true;
 }

@@ -109,6 +109,21 @@
     <Filter Include="Src\Application\GameObject\SkyDoom">
       <UniqueIdentifier>{90242f9e-ea66-41bd-aafd-25f8b4326478}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\Application\GameObject\Portal">
+      <UniqueIdentifier>{4b7503e2-0c4b-42e5-ba5c-51571265b3d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\System">
+      <UniqueIdentifier>{7e75f7ca-9736-47b5-af1e-29116198a279}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\System\EnemySystem">
+      <UniqueIdentifier>{f1f344de-56c7-4b2f-95f1-75b2652139be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\MyFramework">
+      <UniqueIdentifier>{726b4156-059f-4d23-8564-9a2b95b9446a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\MyFramework\JsonManager">
+      <UniqueIdentifier>{eff19820-1dad-4aa8-adaa-114e28bcdf80}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Pch.h">
@@ -315,6 +330,15 @@
     <ClInclude Include="Src\Application\GameObject\SkyDoom\SkyDoom.h">
       <Filter>Src\Application\GameObject\SkyDoom</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Application\GameObject\Portal\Portal.h">
+      <Filter>Src\Application\GameObject\Portal</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\System\EnemySystem\EnemySystem.h">
+      <Filter>Src\Application\System\EnemySystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\MyFramework\JsonManager\JsonManager.h">
+      <Filter>Src\MyFramework\JsonManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pch.cpp">
@@ -490,6 +514,12 @@
     </ClCompile>
     <ClCompile Include="Src\Application\GameObject\SkyDoom\SkyDoom.cpp">
       <Filter>Src\Application\GameObject\SkyDoom</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\System\EnemySystem\EnemySystem.cpp">
+      <Filter>Src\Application\System\EnemySystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\GameObject\Portal\Portal.cpp">
+      <Filter>Src\Application\GameObject\Portal</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

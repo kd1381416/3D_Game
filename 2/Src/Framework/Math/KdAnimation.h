@@ -32,7 +32,7 @@ struct KdAnimationData
 		// 各チャンネル
 		std::vector<KdAnimKeyVector3>		m_translations;	// 位置キーリスト
 		std::vector<KdAnimKeyQuaternion>	m_rotations;	// 回転キーリスト
-		std::vector<KdAnimKeyVector3>		m_scales;		// 拡縮キーリスト
+		std::vector<KdAnimKeyVector3>		m_scales;		// 拡縮キーリスト	
 
 		void Interpolate(Math::Matrix& rDst, float time);
 		bool InterpolateTranslations(Math::Vector3& result, float time);

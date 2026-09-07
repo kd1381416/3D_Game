@@ -13,6 +13,10 @@
 
 #include <Application/GameObject/SkyDoom/SkyDoom.h>
 
+#include <Application/GameObject/Portal/Portal.h>
+
+#include <Application/System/EnemySystem/EnemySystem.h>
+
 void GameScene::Event()
 {
 	if (GetAsyncKeyState('T') & 0x8000)
@@ -41,18 +45,18 @@ void GameScene::Init()
 	m_spPlayer->Init();
 	AddObject(m_spPlayer);
 
-	//===敵1===
-	for (int i = 0; i < 5; i++)
-	{
-		auto _enemy1 = std::make_shared<Enemy1>();
-		_enemy1->Init();
-		_enemy1->SetPos(Math::Vector3{ -20.0f +(10.0f * i),0.3f,15.0f });
-		AddObject(_enemy1);
-		AddEnemyList(_enemy1);
-		_enemy1->SetTarget(m_spPlayer);
-		_enemy1->SetCamera(m_spTPSCamera);
-		_enemy1->SetOwner(this);
-	}
+	////===敵1===
+	//for (int i = 0; i < 5; i++)
+	//{
+	//	auto _enemy1 = std::make_shared<Enemy1>();
+	//	_enemy1->Init();
+	//	_enemy1->SetPos(Math::Vector3{ -20.0f +(10.0f * i),0.3f,15.0f });
+	//	AddObject(_enemy1);
+	//	AddEnemyList(_enemy1);
+	//	_enemy1->SetTarget(m_spPlayer);
+	//	_enemy1->SetCamera(m_spTPSCamera);
+	//	_enemy1->SetOwner(this);
+	//}
 
 	//===照準===
 	auto _reticle = std::make_shared<Retricle>();
@@ -64,6 +68,11 @@ void GameScene::Init()
 	_skyDoom->Init();
 	AddObject(_skyDoom);
 
+	//===ポータル===
+	auto _portal = std::make_shared<Portal>();
+	_portal->Init();
+	AddObject(_portal);	
+
 	//===ターゲットをセット===
 	m_spTPSCamera->SetTarget(m_spPlayer);
 
@@ -74,11 +83,9 @@ void GameScene::Init()
 	//===ゲームシーンをセット===
 	m_spTPSCamera->SetOwner(this);
 
-	/*ImGuiStyle& style = ImGui::GetStyle();
-
-	style.WindowRounding = 8.0f;
-	style.ChildRounding = 6.0f;
-	style.FrameRounding = 5.0f;
-	style.PopupRounding = 5.0f;
-	style.GrabRounding = 5.0f;*/
+	//===敵のイベント処理===
+	m_spEnemySystem = std::make_shared<EnemySystem>();
+	m_spEnemySystem->Init();
+	m_spEnemySystem->SetGameScene(this);
+	m_spEnemySystem->AddNormalEnemy(0.0f, 15.0f);
 }

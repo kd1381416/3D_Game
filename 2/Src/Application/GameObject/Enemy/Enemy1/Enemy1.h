@@ -19,10 +19,6 @@ public:
 	Math::Vector3	GetAimPos()const override { return m_aimPos; }
 
 	void OnHit()override;
-	
-	void SetCamera(std::shared_ptr<TPSCamera> _camera) { m_wpCamera = _camera; }
 
 private:
-
-	std::weak_ptr<TPSCamera>	m_wpCamera;
 };
