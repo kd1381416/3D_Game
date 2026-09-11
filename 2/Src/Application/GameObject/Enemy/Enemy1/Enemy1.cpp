@@ -143,3 +143,11 @@ void Enemy1::OnHit()
 
 	m_hp -= _hitDamege;
 }
+
+void Enemy1::SearchPlayer()
+{
+	KdCollider::SphereInfo	_spher;
+	_spher.m_sphere.Center = m_pos;
+	_spher.m_sphere.Radius = 5.0f;
+	_spher.m_type = KdCollider::TypePlayer;
+}

@@ -26,6 +26,8 @@ void GameScene::Event()
 			SceneManager::SceneType::Title
 		);
 	}
+
+	m_spEnemySystem->Update();
 }
 
 void GameScene::Init()
@@ -44,19 +46,6 @@ void GameScene::Init()
 	m_spPlayer= std::make_shared<Player>();
 	m_spPlayer->Init();
 	AddObject(m_spPlayer);
-
-	////===敵1===
-	//for (int i = 0; i < 5; i++)
-	//{
-	//	auto _enemy1 = std::make_shared<Enemy1>();
-	//	_enemy1->Init();
-	//	_enemy1->SetPos(Math::Vector3{ -20.0f +(10.0f * i),0.3f,15.0f });
-	//	AddObject(_enemy1);
-	//	AddEnemyList(_enemy1);
-	//	_enemy1->SetTarget(m_spPlayer);
-	//	_enemy1->SetCamera(m_spTPSCamera);
-	//	_enemy1->SetOwner(this);
-	//}
 
 	//===照準===
 	auto _reticle = std::make_shared<Retricle>();
@@ -87,5 +76,5 @@ void GameScene::Init()
 	m_spEnemySystem = std::make_shared<EnemySystem>();
 	m_spEnemySystem->Init();
 	m_spEnemySystem->SetGameScene(this);
-	m_spEnemySystem->AddNormalEnemy(0.0f, 15.0f);
+	m_spEnemySystem->SetPortalPos(_portal->GetPos());
 }

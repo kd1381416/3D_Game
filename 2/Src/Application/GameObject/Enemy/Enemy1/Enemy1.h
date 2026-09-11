@@ -2,8 +2,6 @@
 
 #include "../EnemyBase.h"
 
-class TPSCamera;
-
 class Enemy1 : public EnemyBase
 {
 public:
@@ -21,4 +19,7 @@ public:
 	void OnHit()override;
 
 private:
+
+	void SearchPlayer();
+
 };

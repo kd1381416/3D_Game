@@ -10,10 +10,17 @@ void EnemySystem::Init()
 }
 
 void EnemySystem::Update()
-{}
+{
+	if (m_enemyNowNum < m_enemyMaxNum)
+	{
+		AddNormalEnemy(m_portalPos.x, m_portalPos.z);
+	}
+}
 
 void EnemySystem::AddNormalEnemy(float _xPos, float _zPos)
 {
+	if (m_enemyNowNum >= m_enemyMaxNum)return;
+
 	auto _normalEnemy = std::make_shared<Enemy1>();
 
 	if(_normalEnemy)
@@ -28,6 +35,8 @@ void EnemySystem::AddNormalEnemy(float _xPos, float _zPos)
 		{
 			_normalEnemy->SetTarget(m_pGameScene->GetPlayer());
 			_normalEnemy->SetOwner(m_pGameScene);
+
+			m_enemyNowNum++;
 		}
 	}
 }

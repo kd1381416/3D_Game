@@ -27,10 +27,12 @@ public:
 
 private:
 
-	std::shared_ptr	<KdModelWork>		m_spUpperModel;	//上半身モデル
-	std::shared_ptr <KdModelWork>		m_spGatlingModel;
-	std::shared_ptr	<KdModelWork>		m_spUnderModel;	//下半身モデル	
-	std::weak_ptr	<TPSCamera>			m_wpCamera;		//カメラ
+	void MovePlayer();
+
+	std::shared_ptr	<KdModelWork>		m_spUpperModel;		//上半身モデル(通常)
+	std::shared_ptr <KdModelWork>		m_spGatlingModel;	//上半身モデル(ガトリング)
+	std::shared_ptr	<KdModelWork>		m_spUnderModel;		//下半身モデル	
+	std::weak_ptr	<TPSCamera>			m_wpCamera;			//カメラ
 
 	Math::Matrix	m_underMatrix = Math::Matrix::Identity;
 	Math::Matrix	m_upperMatrix = Math::Matrix::Identity;

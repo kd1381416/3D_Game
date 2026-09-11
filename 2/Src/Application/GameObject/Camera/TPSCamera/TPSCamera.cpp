@@ -5,6 +5,8 @@
 #include<Application/Scene/SceneManager.h>
 #include<Application/Scene/GameScene/GameScene.h>
 
+#include<Application/System/EnemySystem/EnemySystem.h>
+
 void TPSCamera::Init()
 {
 	// 親クラスの初期化呼び出し
@@ -107,7 +109,7 @@ void TPSCamera::SearchTargetEnemy()
 	//ターゲットをリセット
 	m_wpTargetEnemy.reset();
 
-	for (auto& _wpEnemy : m_owner->GetEnemyList())
+	for (auto& _wpEnemy : m_owner->GetEnemySystem()->GetEnemyList())
 	{
 		auto _spEnemy = _wpEnemy.lock();
 
@@ -116,9 +118,6 @@ void TPSCamera::SearchTargetEnemy()
 	
 		//敵の位置
 		Math::Vector3	_enemyPos = _spEnemy->GetAimPos();
-
-		//少し敵の上に照準を合わせる
-		_enemyPos.y += 1.0f;
 
 		//カメラから敵までの方向
 		Math::Vector3	_enemyDir = _enemyPos - _cameraPos;
