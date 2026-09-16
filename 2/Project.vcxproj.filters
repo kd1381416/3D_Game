@@ -124,6 +124,12 @@
     <Filter Include="Src\MyFramework\JsonManager">
       <UniqueIdentifier>{eff19820-1dad-4aa8-adaa-114e28bcdf80}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\Application\GameObject\Item">
+      <UniqueIdentifier>{1e27c048-68ee-4945-b775-0c97bc3aa70c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\GameObject\Item\Gatling">
+      <UniqueIdentifier>{fcec21c9-6ad6-4970-a79e-f82ccf1be60d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Pch.h">
@@ -339,6 +345,9 @@
     <ClInclude Include="Src\MyFramework\JsonManager\JsonManager.h">
       <Filter>Src\MyFramework\JsonManager</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Application\GameObject\Item\Gatling\Gatling.h">
+      <Filter>Src\Application\GameObject\Item\Gatling</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pch.cpp">
@@ -520,6 +529,9 @@
     </ClCompile>
     <ClCompile Include="Src\Application\GameObject\Portal\Portal.cpp">
       <Filter>Src\Application\GameObject\Portal</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\GameObject\Item\Gatling\Gatling.cpp">
+      <Filter>Src\Application\GameObject\Item\Gatling</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

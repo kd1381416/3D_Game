@@ -22,6 +22,8 @@ public:
 
 	void SetOwner(GameScene* _owner) { m_owner = _owner; }
 
+	float GetHp() const { return m_hp; }
+
 private:
 
 protected:

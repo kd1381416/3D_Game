@@ -22,6 +22,11 @@ public:
 		m_wpEnemyList.push_back(_enemy);
 	}
 	
+	void RemoveEnemyNum()
+	{
+		--m_enemyNowNum; 
+	}
+
 	void SetGameScene(GameScene* _pGameScene)
 	{
 		m_pGameScene = _pGameScene;

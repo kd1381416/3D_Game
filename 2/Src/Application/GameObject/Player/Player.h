@@ -25,6 +25,8 @@ public:
 
 	PlayerState	GetNowState() { return m_nowState; }
 
+	void ChangeState(PlayerState _changeState) { m_nowState = _changeState; }
+
 private:
 
 	void MovePlayer();

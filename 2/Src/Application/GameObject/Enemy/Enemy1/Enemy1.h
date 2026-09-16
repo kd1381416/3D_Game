@@ -22,4 +22,6 @@ private:
 
 	void SearchPlayer();
 
+	void Move();
+
 };

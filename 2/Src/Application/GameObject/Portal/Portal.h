@@ -10,6 +10,8 @@ public:
 	void Update()	override;
 	void DrawLit()	override;
 
+	Math::Vector3 GetPos() const override { return m_pos; }
+
 private:
 
 	std::shared_ptr<KdModelWork> m_spModel = nullptr;
