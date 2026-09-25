@@ -67,6 +67,16 @@ public:
 
 	// アニメーションの更新
 	void AdvanceTime(std::vector<KdModelWork::Node>& rNodes, float speed = 1.0f);
+	void AdvanceTime(std::vector<KdModelWork::Node>& rNodes, float maxLength, float speed = 1.0f);
+
+	//アニメーションの最初と最後を設定
+	void SetAnimationTime(float start, float end)
+	{
+		m_time = start;
+		m_spAnimation->m_maxLength = end;
+
+		m_firstFlg = true;
+	}
 
 private:
 
@@ -75,4 +85,9 @@ private:
 	float m_time = 0.0f;
 
 	bool m_isLoop = false;
+
+	//アニメータの最初のフレームをとるため
+	bool	m_firstFlg = false;
+	float	m_firstFrame = 0.0f;
+
 };

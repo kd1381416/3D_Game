@@ -9,6 +9,14 @@ public:
 	EnemyBase() {}
 	virtual ~EnemyBase() override {}
 
+	enum class MoveState
+	{
+		None,
+		Move,
+		Attack,
+		Death
+	};
+
 	virtual void Init()			override;
 	virtual void Update()		override;
 	virtual void PostUpdate()	override;
@@ -28,22 +36,24 @@ private:
 
 protected:
 
-	std::shared_ptr	<KdModelWork>		m_spModel		= nullptr;
-	std::shared_ptr	<KdAnimator>		m_spAnimator	= nullptr;
-	std::weak_ptr	<Player>			m_wpTarget;
+	MoveState	m_currentState = MoveState::None;
 
-	Math::Vector3	m_pos		= Math::Vector3::Zero;
-	Math::Vector3	m_dir		= Math::Vector3::Zero;
-	Math::Vector3	m_aimPos	= Math::Vector3::Zero;
-	Math::Vector3	m_scale		= Math::Vector3::One;
+	std::shared_ptr	<KdModelWork>		m_spModel		= nullptr;		//モデル
+	std::shared_ptr	<KdAnimator>		m_spAnimator	= nullptr;		//モデルのアニメーション
+	std::weak_ptr	<Player>			m_wpTarget;						//ターゲット(Player)
 
-	Math::Matrix	m_rotation;
+	Math::Vector3	m_pos		= Math::Vector3::Zero;	//座標
+	Math::Vector3	m_dir		= Math::Vector3::Zero;	//方向
+	Math::Vector3	m_aimPos	= Math::Vector3::Zero;	//エイムを合わせる座標
+	Math::Vector3	m_scale		= Math::Vector3::One;	//拡縮
+
+	Math::Matrix	m_rotation;		//回転行列
 
 	float m_movePower = 0.1f;		//移動速度
 	float m_hp = 100.0f;			//体力
 
-	bool m_moveFlg = false;
-	bool m_animetionFlg = false;
+	bool m_moveFlg = false;			//行動フラグ
+	bool m_animetionFlg = false;	//アニメーションフラグ
 
-	GameScene* m_owner = nullptr;
+	GameScene* m_owner = nullptr;	//親(ゲームシーン)
 };

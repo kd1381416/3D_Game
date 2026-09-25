@@ -11,8 +11,11 @@
 
 void Enemy1::Init()
 {
+	//モデル読み込み
 	m_spModel = std::make_shared<KdModelWork>();
 	m_spModel->SetModelData("Asset/Model/RobotBug/RobotBug.gltf");
+
+	//アニメーション読み込み
 	m_spAnimator = std::make_shared<KdAnimator>();
 	m_spAnimator->SetAnimation(m_spModel->GetAnimation("WALKING"));
 
@@ -35,17 +38,87 @@ void Enemy1::Update()
 {
 	SearchPlayer();
 
-	if (m_moveFlg)
+	m_dir = m_wpTarget.lock()->GetPos() - m_pos;
+	m_dir.y = 0;
+
+	float _stopDistance = 5.0f;
+	float _distance = m_dir.Length();
+
+	if (_distance > _stopDistance)
 	{
-		Move();
+
+		m_dir.Normalize();
+
+		m_movePower = 0.1f;
+
+		if (_distance < _stopDistance + 0.1f)
+		{
+			m_movePower *= (_distance - _stopDistance) / 0.1f;
+		}
+
+		float	_angle = atan2(m_dir.x, m_dir.z) + DirectX::XM_PI;
+		m_rotation = Math::Matrix::CreateRotationY(_angle);
+	}
+	else
+	{
+		m_animetionFlg = false;
 	}
 
+//ターゲット(Player)が索敵範囲内にいるなら動く+アニメーションする
+	if (m_moveFlg)
+	{
+		m_pos += m_dir * m_movePower;
+		m_animetionFlg = true;
+	}
+
+//アニメーション処理
+	if (m_animetionFlg)
+	{
+		if (!m_spAnimator)	return;
+		if (!m_spModel)		return;
+
+		m_spAnimator->AdvanceTime(m_spModel->WorkNodes());
+		m_spModel->CalcNodeMatrices();
+	}
 }
 
 void Enemy1::PostUpdate()
 {
+//押し出し処理
+	for (auto& obj : m_owner->GetEnemySystem()->GetEnemyList())
+	{
+		auto _enemy = obj.lock();
+
+		if (!_enemy)continue;
+		if (_enemy.get() == this)continue;
+
+		Math::Vector3 diff = _enemy->GetPos() - m_pos;
+
+		diff.y = 0.0f;
+
+		float distance = diff.Length();
+
+		float hitDistance = 4.0f;
+
+		if (distance < hitDistance)
+		{
+			// 重なり量
+			float overlap = hitDistance - distance;
+
+			// 敵同士の方向
+			diff.Normalize();
+
+			// 半分ずつ押し戻す
+			m_pos -= diff * (overlap * 0.5f);
+			_enemy->SetPos(_enemy->GetPos() + diff * (overlap * 0.5f));
+		}
+	}
+	//m_pDebugWire->AddDebugSphere(m_aimPos, 2.0f, kBlueColor);
+
+//エイムを合わせる座標を割り出す
 	m_aimPos = m_pos + Math::Vector3{ 0.0f, 1.5f, 0.0f };
 
+//もしHPが0以下なら消える
 	if (m_hp <= 0.0f)
 	{
 		m_isExpired = true; 
@@ -53,7 +126,7 @@ void Enemy1::PostUpdate()
 		m_owner->GetEnemySystem()->RemoveEnemyNum();
 	}
 
-	//行列作成
+//行列作成
 	Math::Matrix	_scale = Math::Matrix::CreateScale(m_scale);
 	Math::Matrix	_trans = Math::Matrix::CreateTranslation(m_pos);
 	m_mWorld = _scale * m_rotation * _trans;
@@ -109,75 +182,4 @@ void Enemy1::SearchPlayer()
 	}
 
 	//m_pDebugWire->AddDebugSphere(_sphere.m_sphere.Center,_sphere.m_sphere.Radius,kRedColor);
-}
-
-void Enemy1::Move()
-{
-	m_dir = m_wpTarget.lock()->GetPos() - m_pos;
-	m_dir.y = 0;
-
-	float _stopDistance = 5.0f;
-	float _distance = m_dir.Length();
-
-	if (_distance > _stopDistance)
-	{
-
-		m_dir.Normalize();
-
-		float _moveSpeed = 0.1f;
-
-		if (_distance < _stopDistance + 0.1f)
-		{
-			_moveSpeed *= (_distance - _stopDistance) / 0.1f;
-		}
-
-		float	_angle = atan2(m_dir.x, m_dir.z) + DirectX::XM_PI;
-		m_rotation = Math::Matrix::CreateRotationY(_angle);
-
-		m_pos += m_dir * _moveSpeed;
-		m_animetionFlg = true;
-	}
-	else
-	{
-		m_animetionFlg = false;
-	}
-
-	if (m_animetionFlg)
-	{
-		if (!m_spAnimator)	return;
-		if (!m_spModel)		return;
-
-		m_spAnimator->AdvanceTime(m_spModel->WorkNodes());
-		m_spModel->CalcNodeMatrices();
-	}
-
-	for (auto& obj : m_owner->GetEnemySystem()->GetEnemyList())
-	{
-		auto _enemy = obj.lock();
-
-		if (!_enemy)continue;
-		if (_enemy.get() == this)continue;
-
-		Math::Vector3 diff = _enemy->GetPos() - m_pos;
-
-		diff.y = 0.0f;
-
-		float distance = diff.Length();
-
-		float hitDistance = 4.0f;
-
-		if (distance < hitDistance)
-		{
-			// 重なり量
-			float overlap = hitDistance - distance;
-
-			// 敵同士の方向
-			diff.Normalize();
-
-			// 半分ずつ押し戻す
-			m_pos -= diff * (overlap * 0.5f);
-			_enemy->SetPos(_enemy->GetPos() + diff * (overlap * 0.5f));
-		}
-	}
-	//m_pDebugWire->AddDebugSphere(m_aimPos, 2.0f, kBlueColor);
 }
