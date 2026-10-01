@@ -34,13 +34,18 @@ void Enemy1::Init()
 	m_hp = 100.0f;
 }
 
-void Enemy1::Update()
+void Enemy1::PreUpdate()
 {
+//Playerが索敵範囲内かどうかを判定(範囲内ならm_moveFlgをtrue)
 	SearchPlayer();
 
-	m_dir = m_wpTarget.lock()->GetPos() - m_pos;
-	m_dir.y = 0;
+	if (m_moveFlg)
+	{
+	}
+}
 
+void Enemy1::Update()
+{
 	float _stopDistance = 5.0f;
 	float _distance = m_dir.Length();
 
@@ -71,7 +76,7 @@ void Enemy1::Update()
 		m_animetionFlg = true;
 	}
 
-//アニメーション処理
+//アニメーション処理	
 	if (m_animetionFlg)
 	{
 		if (!m_spAnimator)	return;
@@ -113,7 +118,6 @@ void Enemy1::PostUpdate()
 			_enemy->SetPos(_enemy->GetPos() + diff * (overlap * 0.5f));
 		}
 	}
-	//m_pDebugWire->AddDebugSphere(m_aimPos, 2.0f, kBlueColor);
 
 //エイムを合わせる座標を割り出す
 	m_aimPos = m_pos + Math::Vector3{ 0.0f, 1.5f, 0.0f };
@@ -180,6 +184,4 @@ void Enemy1::SearchPlayer()
 			m_moveFlg = true;
 		}
 	}
-
-	//m_pDebugWire->AddDebugSphere(_sphere.m_sphere.Center,_sphere.m_sphere.Radius,kRedColor);
 }
