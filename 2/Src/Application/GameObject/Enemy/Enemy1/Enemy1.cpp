@@ -32,26 +32,47 @@ void Enemy1::Init()
 	m_scale = { 0.03f,0.03f,0.03f };
 
 	m_hp = 100.0f;
+	m_attackLength = 5.0f;
 }
 
 void Enemy1::PreUpdate()
 {
+//もしHPが0以下なら消える
+	if (m_hp <= 0.0f)
+	{
+		m_isExpired = true;
+
+		m_owner->GetEnemySystem()->RemoveEnemyNum();
+	}
+
 //Playerが索敵範囲内かどうかを判定(範囲内ならm_moveFlgをtrue)
 	SearchPlayer();
 
 	if (m_moveFlg)
 	{
+		m_dir = m_wpTarget.lock()->GetPos() - m_pos;
+		m_dir.y = 0.0f;
+
+		//攻撃可能範囲に入ったら攻撃状態にする
+		if (m_dir.Length() <= m_attackLength)
+		{
+			if (m_currentState != MoveState::Attack)
+			{
+				m_currentState = MoveState::Attack;
+
+				m_spAnimator->SetAnimationTime(60.0f, 70.0f);
+			}
+		}
 	}
 }
 
 void Enemy1::Update()
 {
-	float _stopDistance = 5.0f;
+	float _stopDistance = 8.0f;
 	float _distance = m_dir.Length();
 
 	if (_distance > _stopDistance)
 	{
-
 		m_dir.Normalize();
 
 		m_movePower = 0.1f;
@@ -59,10 +80,12 @@ void Enemy1::Update()
 		if (_distance < _stopDistance + 0.1f)
 		{
 			m_movePower *= (_distance - _stopDistance) / 0.1f;
-		}
 
-		float	_angle = atan2(m_dir.x, m_dir.z) + DirectX::XM_PI;
-		m_rotation = Math::Matrix::CreateRotationY(_angle);
+			if (m_movePower > 1.0f)
+			{
+				m_movePower = 1.0f;
+			}
+		}
 	}
 	else
 	{
@@ -122,17 +145,11 @@ void Enemy1::PostUpdate()
 //エイムを合わせる座標を割り出す
 	m_aimPos = m_pos + Math::Vector3{ 0.0f, 1.5f, 0.0f };
 
-//もしHPが0以下なら消える
-	if (m_hp <= 0.0f)
-	{
-		m_isExpired = true; 
-
-		m_owner->GetEnemySystem()->RemoveEnemyNum();
-	}
-
 //行列作成
 	Math::Matrix	_scale = Math::Matrix::CreateScale(m_scale);
 	Math::Matrix	_trans = Math::Matrix::CreateTranslation(m_pos);
+	float	_angle = atan2(m_dir.x, m_dir.z) + DirectX::XM_PI;
+	m_rotation = Math::Matrix::CreateRotationY(_angle);
 	m_mWorld = _scale * m_rotation * _trans;
 }
 

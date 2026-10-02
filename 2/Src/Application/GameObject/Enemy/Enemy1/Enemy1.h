@@ -22,4 +22,6 @@ public:
 private:
 
 	void SearchPlayer();
+
+	float m_attackLength;
 };
