@@ -26,7 +26,7 @@ void EnemySystem::AddNormalEnemy(float _xPos, float _zPos)
 	if(_normalEnemy)
 	{
 		_normalEnemy->Init();
-		_normalEnemy->SetPos(Math::Vector3{ _xPos,0.3f,_zPos });
+		_normalEnemy->SetPos(Math::Vector3{ _xPos,0.0f,_zPos });
 
 		m_pGameScene->AddObject(_normalEnemy);
 		AddEnemyList(_normalEnemy);

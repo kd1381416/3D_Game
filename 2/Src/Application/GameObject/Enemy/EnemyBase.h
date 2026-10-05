@@ -22,6 +22,9 @@ public:
 	virtual void PostUpdate()	override;
 	virtual void DrawLit()		override;
 
+	//状態を変更する関数
+	virtual void ChangeState(MoveState _nextState) { m_currentState = _nextState; }
+
 	virtual Math::Vector3 GetAimPos() const { return m_aimPos; }
 
 	void SetPos(Math::Vector3 _pos) { m_pos = _pos; }
@@ -53,6 +56,7 @@ protected:
 	float m_hp = 100.0f;			//体力
 
 	bool m_moveFlg = false;			//行動フラグ
+	bool m_changeFlg = false;		//状態変更フラグ
 	bool m_animetionFlg = false;	//アニメーションフラグ
 
 	GameScene* m_owner = nullptr;	//親(ゲームシーン)

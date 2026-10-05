@@ -78,6 +78,12 @@ public:
 		m_firstFlg = true;
 	}
 
+	//アニメーションの現在の時間を取得
+	const float GetAnimationTime() const
+	{
+		return m_time;
+	}
+
 private:
 
 	std::shared_ptr<KdAnimationData>	m_spAnimation = nullptr;	// 再生するアニメーションデータ
