@@ -1,5 +1,7 @@
 ﻿#include"Enemy1.h"
 
+#include<Application/main.h>
+
 #include<Application/GameObject/Player/Player.h>
 
 #include<Application/GameObject/Camera/TPSCamera/TPSCamera.h>
@@ -31,56 +33,49 @@ void Enemy1::Init()
 	m_aimPos = m_pos + Math::Vector3{ 0.0f, 0.0f, 0.0f };
 	m_scale = { 0.03f,0.03f,0.03f };
 
-	m_hp = 100.0f;
+	m_hp = 1.0f;
 	m_attackLength = 8.0f;
 }
 
 void Enemy1::PreUpdate()
 {
-//もしHPが0以下なら消える
+	// 死亡状態なら、死亡処理を繰り返さない
+	if (m_currentState == MoveState::Death)
+	{
+		return;
+	}
+
+	// HPが0以下なら死亡
 	if (m_hp <= 0.0f)
 	{
-		m_isExpired = true;
-
-		m_owner->GetEnemySystem()->RemoveEnemyNum();
+		ChangeState(MoveState::Death);
+		return;
 	}
 
-//Playerが索敵範囲内かどうかを判定(範囲内ならm_moveFlgをtrue)
+	// プレイヤーの索敵
 	SearchPlayer();
 
-	if (m_moveFlg)
+	// ターゲットの方向と距離を更新
+	auto target = m_wpTarget.lock();
+
+	if (!target)
 	{
-		m_dir = m_wpTarget.lock()->GetPos() - m_pos;
-		m_dir.y = 0.0f;
-
-		//もしtrueなら状態を変更
-		if(m_changeFlg)
-		{
-			//攻撃可能範囲に入ったら攻撃状態にする
-			if (m_dir.Length() <= m_attackLength)
-			{
-				if (m_currentState != MoveState::Attack)
-				{
-					m_currentState = MoveState::Attack;
-
-					m_spAnimator->SetAnimationTime(110.0f, 250.0f);
-				}
-			}
-			else
-			{
-				if (m_currentState != MoveState::Move)
-				{
-					m_currentState = MoveState::Move;
-					m_spAnimator->SetAnimationTime(0.0f, 100.0f);
-				}
-			}
-		}
+		m_moveFlg = false;
+		m_dir = Math::Vector3::Zero;
 	}
+	else
+	{
+		m_dir = target->GetPos() - m_pos;
+		m_dir.y = 0.0f;
+	}
+
+	// 状態遷移
+	EnemyBase::UpdateState();
 }
 
 void Enemy1::Update()
 {
-//今の状態に合わせて行動する
+	//今の状態に合わせて行動する
 	switch (m_currentState)
 	{
 	case MoveState::None:
@@ -95,30 +90,42 @@ void Enemy1::Update()
 		break;
 	
 	case MoveState::Death:
+		Death();
 		break;
 	}
 
-//ターゲット(Player)が索敵範囲内にいるなら動く+アニメーションする
+	//ターゲット(Player)が索敵範囲内にいるなら動く+アニメーションする
 	if (m_moveFlg)
 	{
 		m_pos += m_dir * m_movePower;
 		m_animetionFlg = true;
 	}
 
-//アニメーション処理	
+		//アニメーション処理	
 	if (m_animetionFlg)
 	{
 		if (!m_spAnimator)	return;
 		if (!m_spModel)		return;
 
-		m_spAnimator->AdvanceTime(m_spModel->WorkNodes());
+		m_spAnimator->AdvanceTime(m_spModel->WorkNodes(), m_animetionSpeed);
 		m_spModel->CalcNodeMatrices();
+	}
+
+	//攻撃リキャスト時間を進める
+	if (m_attackRecast >= 0.0f)
+	{
+		m_attackRecast -= 1.0f;
+
+		if (m_attackRecast < 0.0f)
+		{
+			m_attackRecast = 0.0f;
+		}
 	}
 }
 
 void Enemy1::PostUpdate()
 {
-//押し出し処理
+	//押し出し処理
 	for (auto& obj : m_owner->GetEnemySystem()->GetEnemyList())
 	{
 		auto _enemy = obj.lock();
@@ -148,10 +155,10 @@ void Enemy1::PostUpdate()
 		}
 	}
 
-//エイムを合わせる座標を割り出す
+	//エイムを合わせる座標を割り出す
 	m_aimPos = m_pos + Math::Vector3{ 0.0f, 1.5f, 0.0f };
 
-//行列作成
+	//行列作成
 	Math::Matrix	_scale = Math::Matrix::CreateScale(m_scale);
 	Math::Matrix	_trans = Math::Matrix::CreateTranslation(m_pos);
 	float	_angle = atan2(m_dir.x, m_dir.z) + DirectX::XM_PI;
@@ -183,11 +190,15 @@ void Enemy1::ChangeState(MoveState _nextState)
 	{
 	case MoveState::None:
 		m_movePower = 0.0f;
+		m_animetionSpeed = 1.0f;
 		m_animetionFlg = false;
+
+		m_spAnimator->SetAnimationTime(0.0f, 0.0f);
 		break;
 
 	case MoveState::Move:
 		m_movePower = 0.0f;
+		m_animetionSpeed = 1.0f;
 		m_animetionFlg = true;
 
 		m_spAnimator->SetAnimationTime(0.0f, 100.0f);
@@ -195,14 +206,22 @@ void Enemy1::ChangeState(MoveState _nextState)
 
 	case MoveState::Attack:
 		m_movePower = 0.0f;
+		m_animetionSpeed = 0.8f;
 		m_animetionFlg = true;
+
+		m_attackJumpSpeed	= 0.25f;
+		m_attackMoveSpeed	= 0.12f;
+		m_attackGravity		= 0.01f;
 
 		m_spAnimator->SetAnimationTime(110.0f, 250.0f);
 		break;
 
 	case MoveState::Death:
 		m_movePower = 0.0f;
-		m_animetionFlg = false;
+		m_animetionSpeed = 1.0f;
+		m_animetionFlg = true;
+
+		m_spAnimator->SetAnimationTime(260.0f, 350.0f);
 		break;
 	}
 }
@@ -249,32 +268,80 @@ void Enemy1::SearchPlayer()
 
 	m_moveFlg = _distance <= _searchRange;
 }
+
 //攻撃処理
+// とびかかり攻撃
 void Enemy1::Attack()
 {
-//アニメーションに合わせて移動させる
-	if(m_spAnimator->GetAnimationTime() >= 120.0f)
-	{
-		m_movePower = 0.5f;
-	}
+	if (!m_spAnimator) return;
 
-	if (m_spAnimator->GetAnimationTime() >= 180.0f) { m_dir.y = 0.1f; }
-	else { m_dir.y = 0.0f; }
+	float animTime = m_spAnimator->GetAnimationTime();
 
-//このフレーム間はダメージ判定を付ける
-	if (m_spAnimator->GetAnimationTime() >= 150.0f && m_spAnimator->GetAnimationTime() <= 200.0f)
+	//攻撃アニメーションの開始位置でジャンプを開始
+	if (!m_attackStarted && animTime >= 183.0f)
 	{
-		KdCollider::SphereInfo	_sphere;
-		_sphere.m_sphere.Center = m_pos;
-		_sphere.m_sphere.Radius = 2.0f;
-		_sphere.m_type = KdCollider::TypeDamage;
-		for (auto& obj : SceneManager::Instance().GetObjList())
+		m_attackStarted = true;
+
+		auto target = m_wpTarget.lock();
+
+		if (target)
 		{
-			if (obj->Intersects(_sphere, nullptr))
+			// プレイヤーの位置から飛ぶ方向を計算
+			m_attackDir = target->GetPos() - m_pos;
+
+			// 水平方向だけを使う
+			m_attackDir.y = 0.0f;
+
+			if (m_attackDir.LengthSquared() > 0.0001f)
 			{
-				obj->OnHit();
+				m_attackDir.Normalize();
+			}
+			else
+			{
+				m_attackDir = Math::Vector3::Zero;
 			}
 		}
+		else
+		{
+			// ターゲットがいない場合は停止する
+			m_attackDir = Math::Vector3::Zero;
+		}
+
+		// ジャンプ開始時の地面の高さを保存
+		m_attackGroundY = m_pos.y;
+
+		// 水平方向への初速
+		m_attackVelocity = m_attackDir * m_attackMoveSpeed;
+
+		// 上方向への初速
+		m_attackVelocity.y = m_attackJumpSpeed;
+	}
+
+	//空中移動・重力・着地判定
+	if (m_attackStarted && !m_attackLanded)
+	{
+		// 速度を位置に加算
+		m_pos += m_attackVelocity;
+
+		// 重力によって落下速度を増やす
+		m_attackVelocity.y -= m_attackGravity;
+
+		// 仮の接地判定
+		if (m_pos.y <= m_attackGroundY)
+		{
+			m_pos.y = m_attackGroundY;
+
+			m_attackVelocity = Math::Vector3::Zero;
+			m_attackLanded = true;
+		}
+	}
+
+	//攻撃アニメーション終了
+	if (animTime >= 249.0f)
+	{
+		m_attackRecast = 6000.0f;
+
+		ChangeState(MoveState::None);
 	}
 }
 
@@ -283,7 +350,7 @@ void Enemy1::Move()
 	float _stopDistance = 8.0f;
 	float _distance = m_dir.Length();
 
-//プレイヤーとの距離が一定以上なら移動する
+	//プレイヤーとの距離が一定以上なら移動する
 	if (_distance > _stopDistance)
 	{
 		m_dir.Normalize();
@@ -303,7 +370,12 @@ void Enemy1::Move()
 	else
 	{
 		m_movePower = 0.0f;
-		m_animetionFlg = false;
-		//m_currentState = MoveState::None;
+		ChangeState(MoveState::None);
 	}
+}
+
+void Enemy1::Death()
+{	
+
+
 }

@@ -51,6 +51,6 @@ private:
 
 	Math::Vector3	m_portalPos = {};
 
-	int	m_enemyMaxNum = 5;
+	int	m_enemyMaxNum = 1;
 	int m_enemyNowNum = 0;
 };

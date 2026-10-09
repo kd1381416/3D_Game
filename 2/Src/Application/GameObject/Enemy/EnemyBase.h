@@ -25,6 +25,8 @@ public:
 	//状態を変更する関数
 	virtual void ChangeState(MoveState _nextState) { m_currentState = _nextState; }
 
+	void UpdateState();
+
 	virtual Math::Vector3 GetAimPos() const { return m_aimPos; }
 
 	void SetPos(Math::Vector3 _pos) { m_pos = _pos; }
@@ -54,10 +56,12 @@ protected:
 
 	float m_movePower = 0.1f;		//移動速度
 	float m_hp = 100.0f;			//体力
+	float m_attackLength = 2.0f;	//攻撃可能距離
+	float m_attackRecast = 0.0f;	//攻撃リキャスト時間
 
 	bool m_moveFlg = false;			//行動フラグ
-	bool m_changeFlg = false;		//状態変更フラグ
 	bool m_animetionFlg = false;	//アニメーションフラグ
+	bool m_deathFlg = false;		//死亡フラグ
 
 	GameScene* m_owner = nullptr;	//親(ゲームシーン)
 };

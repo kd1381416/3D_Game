@@ -197,39 +197,3 @@ void KdAnimator::AdvanceTime(std::vector<KdModelWork::Node>& rNodes, float speed
 		}
 	}
 }
-
-void KdAnimator::AdvanceTime(std::vector<KdModelWork::Node>& rNodes, float maxLength, float speed)
-{
-	if (!m_spAnimation) { return; }
-
-	// 全てのアニメーションノード（モデルの行列を補間する情報）の行列補間を実行する
-	for (auto& rAnimNode : m_spAnimation->m_nodes)
-	{
-		// 対応するモデルノードのインデックス
-		UINT idx = rAnimNode.m_nodeOffset;
-
-		auto prev = rNodes[idx].m_localTransform;
-
-		// アニメーションデータによる行列補間
-		rAnimNode.Interpolate(rNodes[idx].m_localTransform, m_time);
-
-		prev = rNodes[idx].m_localTransform;
-	}
-
-	// アニメーションのフレームを進める
-	m_time += speed;
-
-	// アニメーションデータの最後のフレームを超えたら
-	if (m_time >= maxLength)
-	{
-		if (m_isLoop)
-		{
-			// アニメーションの最初に戻る（ループさせる
-			m_time = 0.0f;
-		}
-		else
-		{
-			m_time = maxLength;
-		}
-	}
-}

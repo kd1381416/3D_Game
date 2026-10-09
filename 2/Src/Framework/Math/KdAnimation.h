@@ -67,7 +67,6 @@ public:
 
 	// アニメーションの更新
 	void AdvanceTime(std::vector<KdModelWork::Node>& rNodes, float speed = 1.0f);
-	void AdvanceTime(std::vector<KdModelWork::Node>& rNodes, float maxLength, float speed = 1.0f);
 
 	//アニメーションの最初と最後を設定
 	void SetAnimationTime(float start = 0.0f, float end = 1.0f)
