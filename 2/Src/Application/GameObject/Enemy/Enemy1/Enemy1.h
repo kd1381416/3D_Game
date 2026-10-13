@@ -24,6 +24,7 @@ public:
 private:
 
 	void SearchPlayer();
+	void Default();
 	void Attack();
 	void Move();
 	void Death();
@@ -41,7 +42,7 @@ private:
 	float m_attackGroundY = 0.0f;	//ジャンプ開始時の地面の高さ
 
 	//ジャンプの各種パラメータ
-	float m_attackJumpSpeed = 0.25f;
-	float m_attackMoveSpeed = 0.12f;
-	float m_attackGravity	= 0.01f;
+	float m_attackJumpSpeed = 0.25f;	//ジャンプの初速
+	float m_attackMoveSpeed = 0.12f;	//攻撃時移動速度
+	float m_attackGravity	= 0.01f;	//ジャンプ時の重力
 };

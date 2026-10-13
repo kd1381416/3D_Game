@@ -83,6 +83,12 @@ public:
 		return m_time;
 	}
 
+	//ループ再生するかどうか
+	void SetLoop(bool isLoop)
+	{
+		m_isLoop = isLoop;
+	}
+
 private:
 
 	std::shared_ptr<KdAnimationData>	m_spAnimation = nullptr;	// 再生するアニメーションデータ

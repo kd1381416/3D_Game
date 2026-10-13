@@ -79,6 +79,7 @@ void Enemy1::Update()
 	switch (m_currentState)
 	{
 	case MoveState::None:
+		Default();
 		break;
 
 	case MoveState::Move:
@@ -94,14 +95,14 @@ void Enemy1::Update()
 		break;
 	}
 
-	//ターゲット(Player)が索敵範囲内にいるなら動く+アニメーションする
+	//ターゲットが索敵範囲内にいるなら動く
 	if (m_moveFlg)
 	{
 		m_pos += m_dir * m_movePower;
 		m_animetionFlg = true;
 	}
 
-		//アニメーション処理	
+	//アニメーション処理	
 	if (m_animetionFlg)
 	{
 		if (!m_spAnimator)	return;
@@ -112,7 +113,7 @@ void Enemy1::Update()
 	}
 
 	//攻撃リキャスト時間を進める
-	if (m_attackRecast >= 0.0f)
+	if (m_attackRecast > 0.0f)
 	{
 		m_attackRecast -= 1.0f;
 
@@ -179,21 +180,22 @@ void Enemy1::GenerateDepthMapFromLight()
 
 void Enemy1::ChangeState(MoveState _nextState)
 {
-	// 同じ状態なら何もしない
+	//同じ状態なら何もしない
 	if (m_currentState == _nextState) return;
 
-	// 状態を変更
+	//状態を変更
 	m_currentState = _nextState;
 
-	// 状態に応じて初期化
+	//状態に応じて初期化
 	switch (m_currentState)
 	{
 	case MoveState::None:
 		m_movePower = 0.0f;
-		m_animetionSpeed = 1.0f;
-		m_animetionFlg = false;
+		m_animetionSpeed = 0.5f;
+		m_animetionFlg = true;
 
-		m_spAnimator->SetAnimationTime(0.0f, 0.0f);
+		m_spAnimator->SetAnimationTime(110.0f, 0.0f);
+		m_spAnimator->SetLoop(true);
 		break;
 
 	case MoveState::Move:
@@ -202,6 +204,7 @@ void Enemy1::ChangeState(MoveState _nextState)
 		m_animetionFlg = true;
 
 		m_spAnimator->SetAnimationTime(0.0f, 100.0f);
+		m_spAnimator->SetLoop(true);
 		break;
 
 	case MoveState::Attack:
@@ -214,6 +217,7 @@ void Enemy1::ChangeState(MoveState _nextState)
 		m_attackGravity		= 0.01f;
 
 		m_spAnimator->SetAnimationTime(110.0f, 250.0f);
+		m_spAnimator->SetLoop(false);
 		break;
 
 	case MoveState::Death:
@@ -222,6 +226,7 @@ void Enemy1::ChangeState(MoveState _nextState)
 		m_animetionFlg = true;
 
 		m_spAnimator->SetAnimationTime(260.0f, 350.0f);
+		m_spAnimator->SetLoop(false);
 		break;
 	}
 }
@@ -269,8 +274,11 @@ void Enemy1::SearchPlayer()
 	m_moveFlg = _distance <= _searchRange;
 }
 
+void Enemy1::Default()
+{
+}
+
 //攻撃処理
-// とびかかり攻撃
 void Enemy1::Attack()
 {
 	if (!m_spAnimator) return;
@@ -339,7 +347,7 @@ void Enemy1::Attack()
 	//攻撃アニメーション終了
 	if (animTime >= 249.0f)
 	{
-		m_attackRecast = 6000.0f;
+		m_attackRecast = 100.0f;
 
 		ChangeState(MoveState::None);
 	}
@@ -376,6 +384,10 @@ void Enemy1::Move()
 
 void Enemy1::Death()
 {	
+	if (m_spAnimator->IsAnimationEnd())
+	{
+		m_isExpired = true;
 
-
+		m_owner->GetEnemySystem()->RemoveEnemyNum();
+	}
 }
