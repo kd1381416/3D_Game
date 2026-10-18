@@ -99,7 +99,6 @@ void Enemy1::Update()
 	if (m_moveFlg)
 	{
 		m_pos += m_dir * m_movePower;
-		m_animetionFlg = true;
 	}
 
 	//アニメーション処理	
@@ -192,10 +191,11 @@ void Enemy1::ChangeState(MoveState _nextState)
 	case MoveState::None:
 		m_movePower = 0.0f;
 		m_animetionSpeed = 0.5f;
-		m_animetionFlg = true;
+		m_animetionFlg = false;
 
-		m_spAnimator->SetAnimationTime(110.0f, 0.0f);
-		m_spAnimator->SetLoop(true);
+		m_moveFlg = true;
+
+		m_spAnimator->SetAnimationTime(0.0f, 100.0f);	
 		break;
 
 	case MoveState::Move:
@@ -212,9 +212,11 @@ void Enemy1::ChangeState(MoveState _nextState)
 		m_animetionSpeed = 0.8f;
 		m_animetionFlg = true;
 
-		m_attackJumpSpeed	= 0.25f;
-		m_attackMoveSpeed	= 0.12f;
+		m_attackJumpSpeed	= 0.15f;
+		m_attackMoveSpeed	= 0.20f;
 		m_attackGravity		= 0.01f;
+		m_attackStarted		= false;
+		m_attackLanded		= false;
 
 		m_spAnimator->SetAnimationTime(110.0f, 250.0f);
 		m_spAnimator->SetLoop(false);
@@ -276,6 +278,9 @@ void Enemy1::SearchPlayer()
 
 void Enemy1::Default()
 {
+	m_dir = {KdRandom::GetFloat(-1.0f, 1.0f), 0.0f, KdRandom::GetFloat(-1.0f, 1.0f)};
+	m_movePower = 0.1f;
+	m_moveFlg = true;
 }
 
 //攻撃処理
@@ -344,8 +349,8 @@ void Enemy1::Attack()
 		}
 	}
 
-	//攻撃アニメーション終了
-	if (animTime >= 249.0f)
+	//攻撃処理終了
+	if (m_spAnimator->IsAnimationEnd())
 	{
 		m_attackRecast = 100.0f;
 
