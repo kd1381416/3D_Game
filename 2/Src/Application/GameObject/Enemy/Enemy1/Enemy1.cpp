@@ -252,7 +252,7 @@ void Enemy1::OnHit()
 	default:
 		break;
 	}
-
+	
 	m_hp -= _hitDamage;
 }
 
