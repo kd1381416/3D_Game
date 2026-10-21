@@ -50,5 +50,6 @@ private:
 
 	int		m_gatlingCount = 0;		//ガトリング時何発打ったかカウント
 
-	bool	m_shotFlg = false;		//弾発射フラグ
+	bool	m_shotFlg = false;			//弾発射フラグ
+	bool	m_stateChangeFlg = false;	//状態変更フラグ
 };

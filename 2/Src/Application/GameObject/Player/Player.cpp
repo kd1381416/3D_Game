@@ -27,6 +27,8 @@ void Player::Init()
 	m_pCollider = std::make_unique<KdCollider>();
 	m_pCollider->RegisterCollisionShape("Player", m_pos, 0.35f, KdCollider::TypePlayer);
 
+	m_stateChangeFlg = true;
+
 	m_pos = { 0.0f,1.0f,0.0f };
 }
 
@@ -142,13 +144,28 @@ void Player::Update()
 	}
 
 	//モード切り替え
-	if (GetAsyncKeyState('1') & 0x8000)
+	if (GetAsyncKeyState(VK_RBUTTON) & 0x8000)
 	{
-		m_nowState = PlayerState::Nomal;
+		if(m_stateChangeFlg)
+		{
+			switch (m_nowState)
+			{
+			case PlayerState::Nomal:
+				m_nowState = PlayerState::Gatling;
+				m_stateChangeFlg = false;
+				break;
+			case PlayerState::Gatling:
+				m_nowState = PlayerState::Nomal;
+				m_stateChangeFlg = false;
+				break;
+			default:
+				break;
+			}
+		}
 	}
-	if (GetAsyncKeyState('2') & 0x8000)
+	else
 	{
-		m_nowState = PlayerState::Gatling;
+		m_stateChangeFlg = true;
 	}
 
 	//行列作成
