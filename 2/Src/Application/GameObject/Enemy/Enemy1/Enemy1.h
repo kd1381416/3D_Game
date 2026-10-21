@@ -16,6 +16,7 @@ public:
 	void GenerateDepthMapFromLight()override;
 
 	void ChangeState(MoveState _nextState)	override;
+	void UpdateState()						override;
 
 	Math::Vector3 GetAimPos()const override { return m_aimPos; }
 	

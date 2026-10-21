@@ -29,21 +29,20 @@ void Enemy1::Init()
 		m_pDebugWire = std::make_unique<KdDebugWireFrame>();
 	}
 
+	ChangeState(MoveState::None);
+
 	m_pos	= { 0.0f,0.0f,15.0f };
 	m_aimPos = m_pos + Math::Vector3{ 0.0f, 0.0f, 0.0f };
 	m_scale = { 0.03f,0.03f,0.03f };
 
 	m_hp = 1.0f;
-	m_attackLength = 8.0f;
+	m_attackLength = 10.0f;
 }
 
 void Enemy1::PreUpdate()
 {
 	// 死亡状態なら、死亡処理を繰り返さない
-	if (m_currentState == MoveState::Death)
-	{
-		return;
-	}
+	if (m_currentState == MoveState::Death)	return;
 
 	// HPが0以下なら死亡
 	if (m_hp <= 0.0f)
@@ -70,7 +69,7 @@ void Enemy1::PreUpdate()
 	}
 
 	// 状態遷移
-	EnemyBase::UpdateState();
+	UpdateState();
 }
 
 void Enemy1::Update()
@@ -156,7 +155,7 @@ void Enemy1::PostUpdate()
 	}
 
 	//エイムを合わせる座標を割り出す
-	m_aimPos = m_pos + Math::Vector3{ 0.0f, 1.5f, 0.0f };
+	m_aimPos = m_pos + Math::Vector3{ 0.0f, 1.6f, 0.0f };
 
 	//行列作成
 	Math::Matrix	_scale = Math::Matrix::CreateScale(m_scale);
@@ -190,12 +189,13 @@ void Enemy1::ChangeState(MoveState _nextState)
 	{
 	case MoveState::None:
 		m_movePower = 0.0f;
-		m_animetionSpeed = 0.5f;
-		m_animetionFlg = false;
+		m_animetionSpeed = 1.0f;
+		m_animetionFlg = true;
 
-		m_moveFlg = true;
+		m_moveFlg = false;
 
-		m_spAnimator->SetAnimationTime(0.0f, 100.0f);	
+		m_spAnimator->SetAnimationTime(120.0f, 120.0f);
+		m_spAnimator->SetLoop(true);
 		break;
 
 	case MoveState::Move:
@@ -209,6 +209,8 @@ void Enemy1::ChangeState(MoveState _nextState)
 
 	case MoveState::Attack:
 		m_movePower = 0.0f;
+		m_moveFlg = true;
+
 		m_animetionSpeed = 0.8f;
 		m_animetionFlg = true;
 
@@ -230,6 +232,33 @@ void Enemy1::ChangeState(MoveState _nextState)
 		m_spAnimator->SetAnimationTime(260.0f, 350.0f);
 		m_spAnimator->SetLoop(false);
 		break;
+	}
+}
+
+void Enemy1::UpdateState()
+{
+	if (m_currentState == MoveState::Death)return;
+
+	//攻撃中は状態を変更しない
+	if (m_currentState == MoveState::Attack)return;
+
+	//ターゲットが見つかっていなけらば何もしない
+	if (!m_moveFlg)
+	{
+		ChangeState(MoveState::None);
+		return;
+	}
+
+	//ターゲットとの距離で行動を決める
+	float _distance = m_dir.Length();
+
+	if (_distance < m_attackLength && m_attackRecast <= 0.0f)
+	{
+		ChangeState(MoveState::Attack);
+	}
+	else
+	{
+		ChangeState(MoveState::Move);
 	}
 }
 
@@ -271,16 +300,16 @@ void Enemy1::SearchPlayer()
 
 	float _distance = _diff.Length();
 
-	float _searchRange = 50.0f;
+	float _searchRange = 25.0f;
 
 	m_moveFlg = _distance <= _searchRange;
 }
 
 void Enemy1::Default()
 {
-	m_dir = {KdRandom::GetFloat(-1.0f, 1.0f), 0.0f, KdRandom::GetFloat(-1.0f, 1.0f)};
-	m_movePower = 0.1f;
-	m_moveFlg = true;
+	//m_dir = {KdRandom::GetFloat(-1.0f, 1.0f), 0.0f, KdRandom::GetFloat(-1.0f, 1.0f)};
+	//m_movePower = 0.1f;
+	//m_moveFlg = true;
 }
 
 //攻撃処理
@@ -374,16 +403,13 @@ void Enemy1::Move()
 		{
 			m_movePower *= (_distance - _stopDistance) / 0.1f;
 
-			if (m_movePower > 0.5f)
-			{
-				m_movePower = 0.5f;
-			}
+			if (m_movePower > 0.5f)m_movePower = 0.5f;
 		}
 	}
 	else
 	{
 		m_movePower = 0.0f;
-		ChangeState(MoveState::None);
+
 	}
 }
 

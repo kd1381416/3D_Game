@@ -25,7 +25,7 @@ public:
 	//状態を変更する関数
 	virtual void ChangeState(MoveState _nextState) { m_currentState = _nextState; }
 
-	void UpdateState();
+	virtual void UpdateState();
 
 	virtual Math::Vector3 GetAimPos() const { return m_aimPos; }
 
