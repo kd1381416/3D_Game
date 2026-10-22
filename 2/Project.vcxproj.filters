@@ -363,9 +363,6 @@
     <ClInclude Include="Src\Application\GameObject\Item\Gatling\Gatling.h">
       <Filter>Src\Application\GameObject\Item\Gatling</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\2.5D_Game\BaseFramework 2.5D\Src\Application\Object\Title\Title.h">
-      <Filter>Src\Application\GameObject\Title</Filter>
-    </ClInclude>
     <ClInclude Include="Src\Application\Scene\ResultScene\ResultScene.h">
       <Filter>Src\Application\Scene\ResultScene</Filter>
     </ClInclude>
@@ -377,6 +374,9 @@
     </ClInclude>
     <ClInclude Include="Src\Application\GameObject\Enemy\Boss\Boss.h">
       <Filter>Src\Application\GameObject\Enemy\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\GameObject\Title\Title.h">
+      <Filter>Src\Application\GameObject\Title</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -563,9 +563,6 @@
     <ClCompile Include="Src\Application\GameObject\Item\Gatling\Gatling.cpp">
       <Filter>Src\Application\GameObject\Item\Gatling</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\2.5D_Game\BaseFramework 2.5D\Src\Application\Object\Title\Title.cpp">
-      <Filter>Src\Application\GameObject\Title</Filter>
-    </ClCompile>
     <ClCompile Include="Src\Application\Scene\ResultScene\ResultScene.cpp">
       <Filter>Src\Application\Scene\ResultScene</Filter>
     </ClCompile>
@@ -577,6 +574,9 @@
     </ClCompile>
     <ClCompile Include="Src\Application\GameObject\Enemy\Boss\Boss.cpp">
       <Filter>Src\Application\GameObject\Enemy\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\GameObject\Title\Title.cpp">
+      <Filter>Src\Application\GameObject\Title</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

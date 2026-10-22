@@ -38,7 +38,9 @@ private:
 	std::shared_ptr <KdModelWork>		m_spGatlingModel;	//上半身モデル(ガトリング)
 	std::shared_ptr	<KdModelWork>		m_spUnderModel;		//下半身モデル	
 	std::shared_ptr <KdAudioManager>	m_spAudio;			//効果音
-	std::shared_ptr<KdTexture>			m_HpTex;
+	std::shared_ptr	<KdTexture>			m_HpTex;			//Hpのテクスチャ
+	std::shared_ptr	<KdTexture>			m_CannonTex;		//大砲の残弾数のテクスチャ
+	std::shared_ptr	<KdTexture>			m_GatlingTex;		//ガトリングの残弾数のテクスチャ
 	std::weak_ptr	<TPSCamera>			m_wpCamera;			//カメラ
 
 	Math::Matrix	m_underMatrix = Math::Matrix::Identity;
@@ -56,7 +58,8 @@ private:
 	float	m_Hp = m_MaxHp;
 	float	m_HitInterval = 0;
 
-	int		m_gatlingCount = 0;		//ガトリング時何発打ったかカウント
+	int		m_gatlingCount	= 0;			//ガトリング時何発打ったかカウント
+	int		m_gatlingMax	= 25;			//ガトリングMax弾数
 
 	bool	m_shotFlg = false;			//弾発射フラグ
 	bool	m_stateChangeFlg = false;	//状態変更フラグ

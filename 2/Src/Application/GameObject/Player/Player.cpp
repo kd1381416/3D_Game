@@ -22,6 +22,12 @@ void Player::Init()
 	m_HpTex = std::make_shared<KdTexture>();
 	m_HpTex->Load("Asset/Textures/PlayerHp.png");
 
+	m_CannonTex = std::make_shared<KdTexture>();
+	m_CannonTex->Load("Asset/Textures/Game/Cannnon.png");
+
+	m_GatlingTex = std::make_shared<KdTexture>();
+	m_GatlingTex->Load("Asset/Textures/Game/Gatling.png");
+
 	if (!m_pDebugWire)
 	{
 		m_pDebugWire = std::make_unique<KdDebugWireFrame>();
@@ -136,7 +142,7 @@ void Player::Update()
 
 				m_gatlingSoundFlg = true;
 
-				if (m_gatlingCount >= 25)
+				if (m_gatlingCount >= m_gatlingMax)
 				{
 					m_shotDilay = 100.0f;
 					m_gatlingSoundFlg = false;

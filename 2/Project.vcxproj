@@ -258,7 +258,6 @@
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\2.5D_Game\BaseFramework 2.5D\Src\Application\Object\Title\Title.h" />
     <ClInclude Include="..\Library\imgui\imconfig.h" />
     <ClInclude Include="..\Library\imgui\imgui.h" />
     <ClInclude Include="..\Library\imgui\imgui_impl_dx11.h" />
@@ -288,6 +287,7 @@
     <ClInclude Include="Src\Application\GameObject\Result\Result.h" />
     <ClInclude Include="Src\Application\GameObject\Reticle\Reticle.h" />
     <ClInclude Include="Src\Application\GameObject\SkyDoom\SkyDoom.h" />
+    <ClInclude Include="Src\Application\GameObject\Title\Title.h" />
     <ClInclude Include="Src\Application\main.h" />
     <ClInclude Include="Src\Application\Scene\BaseScene\BaseScene.h" />
     <ClInclude Include="Src\Application\Scene\GameScene\GameScene.h" />
@@ -337,7 +337,6 @@
     <ClInclude Include="src\Framework\Window\KdWindow.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\2.5D_Game\BaseFramework 2.5D\Src\Application\Object\Title\Title.cpp" />
     <ClCompile Include="..\Library\imgui\imgui.cpp" />
     <ClCompile Include="..\Library\imgui\imgui_demo.cpp" />
     <ClCompile Include="..\Library\imgui\imgui_draw.cpp" />
@@ -360,6 +359,7 @@
     <ClCompile Include="Src\Application\GameObject\Result\Result.cpp" />
     <ClCompile Include="Src\Application\GameObject\Reticle\Reticle.cpp" />
     <ClCompile Include="Src\Application\GameObject\SkyDoom\SkyDoom.cpp" />
+    <ClCompile Include="Src\Application\GameObject\Title\Title.cpp" />
     <ClCompile Include="Src\Application\main.cpp" />
     <ClCompile Include="Src\Application\Scene\BaseScene\BaseScene.cpp" />
     <ClCompile Include="Src\Application\Scene\GameScene\GameScene.cpp" />
