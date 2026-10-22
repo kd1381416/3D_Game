@@ -3,6 +3,7 @@
 #include "BaseScene/BaseScene.h"
 #include "TitleScene/TitleScene.h"
 #include "GameScene/GameScene.h"
+#include "ResultScene/ResultScene.h"
 
 void SceneManager::PreUpdate()
 {
@@ -57,6 +58,8 @@ void SceneManager::AddObject(const std::shared_ptr<KdGameObject>& _obj)
 
 void SceneManager::ChangeScene(SceneType _sceneType)
 {
+	KdAudioManager::Instance().StopAllSound();
+
 	// 次のシーンを作成し、現在のシーンにする
 	switch (_sceneType)
 	{
@@ -65,6 +68,9 @@ void SceneManager::ChangeScene(SceneType _sceneType)
 		break;
 	case SceneType::Game:
 		m_currentScene = std::make_shared<GameScene>();
+		break;
+	case SceneType::Result:
+		m_currentScene = std::make_shared<ResultScene>();
 		break;
 	}
 

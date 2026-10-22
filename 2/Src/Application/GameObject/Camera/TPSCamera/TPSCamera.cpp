@@ -123,7 +123,7 @@ void TPSCamera::SearchTargetEnemy()
 		Math::Vector3	_distans = _enemyPos - m_wpTarget.lock()->GetPos();
 		
 		_distans.y = 0.0f;
-		if (_distans.LengthSquared() >= 1000.0f)continue;
+		if (_distans.LengthSquared() >= 5000.0f)continue;
 
 		//カメラから敵までの方向
 		Math::Vector3	_enemyDir = _enemyPos - _cameraPos;

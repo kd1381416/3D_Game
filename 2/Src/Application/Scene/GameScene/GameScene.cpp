@@ -8,6 +8,7 @@
 #include <Application/GameObject/Player/Player.h>
 
 #include <Application/GameObject/Enemy/Enemy1/Enemy1.h>
+#include <Application/GameObject/Enemy/Boss/Boss.h>
 
 #include <Application/GameObject/Reticle/Reticle.h>
 
@@ -16,6 +17,19 @@
 #include <Application/GameObject/Portal/Portal.h>
 
 #include <Application/System/EnemySystem/EnemySystem.h>
+#include <Application/System/GameSystem/GameSystem.h>
+
+GameScene::~GameScene()
+{
+	SceneManager::Instance().SetTime(m_spGameSystem->GetTime());
+	SceneManager::Instance().SetPlayer(m_spPlayer->GetFlg());
+}
+
+void GameScene::Last()
+{
+	SceneManager::Instance().SetTime(m_spGameSystem->GetTime());
+	SceneManager::Instance().SetPlayer(m_spPlayer->GetFlg());
+}
 
 void GameScene::Event()
 {
@@ -25,6 +39,22 @@ void GameScene::Event()
 		(
 			SceneManager::SceneType::Title
 		);
+	}
+
+	if (GetAsyncKeyState('R') & 0x8000)
+	{
+		if (!m_ClickFlg)
+		{
+			m_ClickFlg = true;
+			SceneManager::Instance().SetNextScene
+			(
+				SceneManager::SceneType::Result
+			);
+		}
+	}
+	else
+	{
+		m_ClickFlg = false;
 	}
 
 	m_spEnemySystem->Update();
@@ -77,4 +107,11 @@ void GameScene::Init()
 	m_spEnemySystem->Init();
 	m_spEnemySystem->SetGameScene(this);
 	m_spEnemySystem->SetPortalPos(_portal->GetPos());
+
+	//===ゲームのシステム===
+	m_spGameSystem = std::make_shared<GameSystem>();
+	m_spGameSystem->Init();
+	AddObject(m_spGameSystem);
+
+	m_spAudio->Instance().Play("Asset/Sound/Game/MusMus-BGM-170.wav", true);
 }

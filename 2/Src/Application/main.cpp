@@ -327,7 +327,7 @@ void Application::Execute()
 
 		m_fpsController.Update();
 
-		std::string TitleBar = "3DGAME FPS:" + std::to_string(m_fpsController.m_nowfps);
+		std::string TitleBar = "TankShooter FPS:" + std::to_string(m_fpsController.m_nowfps);
 		SetWindowTextA(m_window.GetWndHandle(), TitleBar.c_str());
 	}
 

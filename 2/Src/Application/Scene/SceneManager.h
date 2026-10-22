@@ -11,6 +11,7 @@ public :
 	{
 		Title,
 		Game,
+		Result
 	};
 
 	void PreUpdate();
@@ -36,6 +37,12 @@ public :
 
 	std::shared_ptr<BaseScene> GetCurrentScene() { return m_currentScene; }
 		
+	void SetTime(int _time) { m_time = _time; }
+	int GetTime() { return m_time; }
+
+	void SetPlayer(bool _player) { m_playerFlg = _player; }
+	bool GetPlayer() { return m_playerFlg; }
+
 private :
 
 	// マネージャーの初期化
@@ -53,11 +60,14 @@ private :
 	std::shared_ptr<BaseScene> m_currentScene = nullptr;
 
 	// 現在のシーンの種類を保持している変数
-	SceneType m_currentSceneType = SceneType::Game;
+	SceneType m_currentSceneType = SceneType::Title;
 	
 	// 次のシーンの種類を保持している変数
 	SceneType m_nextSceneType = m_currentSceneType;
 
+	int m_time;
+
+	bool m_playerFlg;
 private:
 
 	SceneManager() { Init(); }

@@ -35,7 +35,7 @@ void Enemy1::Init()
 	m_aimPos = m_pos + Math::Vector3{ 0.0f, 0.0f, 0.0f };
 	m_scale = { 0.03f,0.03f,0.03f };
 
-	m_hp = 1.0f;
+	m_hp = 35.0f;
 	m_attackLength = 10.0f;
 }
 
@@ -98,6 +98,7 @@ void Enemy1::Update()
 	if (m_moveFlg)
 	{
 		m_pos += m_dir * m_movePower;
+		m_pos.y = 0.0f;
 	}
 
 	//アニメーション処理	
@@ -154,8 +155,24 @@ void Enemy1::PostUpdate()
 		}
 	}
 
+	KdCollider::SphereInfo _sphere;
+	_sphere.m_sphere.Center = m_pos + Math::Vector3(0, 2.0f, 0.0f);
+	_sphere.m_sphere.Radius = 2.0f; // 弾の半径を設定
+	_sphere.m_type = KdCollider::TypePlayer;
+
+	//全てのオブジェクトと当たり判定をする
+	for (auto& obj : SceneManager::Instance().GetObjList())
+	{
+		//敵と当たったら入る
+		if (obj->Intersects(_sphere, nullptr))
+		{
+			obj->OnHit();
+		}
+	}
+	//m_pDebugWire->AddDebugSphere(_sphere.m_sphere.Center,_sphere.m_sphere.Radius,kRedColor);
+
 	//エイムを合わせる座標を割り出す
-	m_aimPos = m_pos + Math::Vector3{ 0.0f, 1.6f, 0.0f };
+	m_aimPos = m_pos + Math::Vector3{ 0.0f, 1.8f, 0.0f };
 
 	//行列作成
 	Math::Matrix	_scale = Math::Matrix::CreateScale(m_scale);
@@ -276,7 +293,7 @@ void Enemy1::OnHit()
 		_hitDamage = 35.0f;
 		break;
 	case Player::PlayerState::Gatling:
-		_hitDamage = 10.0f;
+		_hitDamage = 1.0f;
 		break;
 	default:
 		break;
@@ -300,7 +317,7 @@ void Enemy1::SearchPlayer()
 
 	float _distance = _diff.Length();
 
-	float _searchRange = 25.0f;
+	float _searchRange = 50.0f;
 
 	m_moveFlg = _distance <= _searchRange;
 }

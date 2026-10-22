@@ -130,6 +130,21 @@
     <Filter Include="Src\Application\GameObject\Item\Gatling">
       <UniqueIdentifier>{fcec21c9-6ad6-4970-a79e-f82ccf1be60d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\Application\GameObject\Title">
+      <UniqueIdentifier>{6af92b60-7819-4984-b053-ee0df73e75b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\Scene\ResultScene">
+      <UniqueIdentifier>{a2d9c202-1faf-4ff5-9184-c73cb70c67bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\GameObject\Result">
+      <UniqueIdentifier>{323de62a-3ffe-47d5-b278-941527dd0e75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\System\GameSystem">
+      <UniqueIdentifier>{7f796296-52e6-4ae8-adc7-c461c4572fb4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\GameObject\Enemy\Boss">
+      <UniqueIdentifier>{7fc53dbc-ea39-4ff1-9d5b-5816d26a6d84}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Pch.h">
@@ -348,6 +363,21 @@
     <ClInclude Include="Src\Application\GameObject\Item\Gatling\Gatling.h">
       <Filter>Src\Application\GameObject\Item\Gatling</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\2.5D_Game\BaseFramework 2.5D\Src\Application\Object\Title\Title.h">
+      <Filter>Src\Application\GameObject\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Scene\ResultScene\ResultScene.h">
+      <Filter>Src\Application\Scene\ResultScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\GameObject\Result\Result.h">
+      <Filter>Src\Application\GameObject\Result</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\System\GameSystem\GameSystem.h">
+      <Filter>Src\Application\System\GameSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\GameObject\Enemy\Boss\Boss.h">
+      <Filter>Src\Application\GameObject\Enemy\Boss</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pch.cpp">
@@ -532,6 +562,21 @@
     </ClCompile>
     <ClCompile Include="Src\Application\GameObject\Item\Gatling\Gatling.cpp">
       <Filter>Src\Application\GameObject\Item\Gatling</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\2.5D_Game\BaseFramework 2.5D\Src\Application\Object\Title\Title.cpp">
+      <Filter>Src\Application\GameObject\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Scene\ResultScene\ResultScene.cpp">
+      <Filter>Src\Application\Scene\ResultScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\GameObject\Result\Result.cpp">
+      <Filter>Src\Application\GameObject\Result</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\System\GameSystem\GameSystem.cpp">
+      <Filter>Src\Application\System\GameSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\GameObject\Enemy\Boss\Boss.cpp">
+      <Filter>Src\Application\GameObject\Enemy\Boss</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

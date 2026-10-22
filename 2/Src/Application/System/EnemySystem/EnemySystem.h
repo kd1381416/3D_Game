@@ -16,6 +16,8 @@ public:
 	//敵(通常)を作成する(x軸座標,z軸座標)
 	void AddNormalEnemy(float _xPos = 0.0f, float _zPos = 0.0f);
 
+	void AddBoss();
+
 	//敵を追加したらこれを呼ぶ
 	void AddEnemyList(const std::shared_ptr<EnemyBase> _enemy)
 	{
@@ -25,6 +27,7 @@ public:
 	void RemoveEnemyNum()
 	{
 		--m_enemyNowNum; 
+		++m_enemyDeathCount;
 	}
 
 	void SetGameScene(GameScene* _pGameScene)
@@ -53,4 +56,8 @@ private:
 
 	int	m_enemyMaxNum = 5;
 	int m_enemyNowNum = 0;
+
+	int m_enemyDeathCount = 0;
+
+	bool m_bossFlg = false;
 };

@@ -6,13 +6,14 @@ class EnemyBase;
 class Player;
 class TPSCamera;
 class EnemySystem;
+class GameSystem;
 
 class GameScene : public BaseScene
 {
 public :
 
 	GameScene()  { Init(); }
-	~GameScene() {}
+	~GameScene();
 
 	void AddEnemyList(const std::shared_ptr<EnemyBase>& _target)
 	{
@@ -24,6 +25,8 @@ public :
 	std::shared_ptr<Player>			GetPlayer()			{ return m_spPlayer; }
 	std::shared_ptr<TPSCamera>		GetTPSCamera()		{ return m_spTPSCamera; }
 	std::shared_ptr<EnemySystem>	GetEnemySystem()	{ return m_spEnemySystem; }
+
+	void Last();
 private:
 
 	void Event() override;
@@ -34,4 +37,10 @@ private:
 	std::shared_ptr<Player>			m_spPlayer;
 	std::shared_ptr<TPSCamera>		m_spTPSCamera;
 	std::shared_ptr<EnemySystem>	m_spEnemySystem;
+	std::shared_ptr<GameSystem>		m_spGameSystem;
+	std::shared_ptr <KdAudioManager>	m_spAudio;			//効果音
+
+	float m_time = 0.0f;
+
+	bool	m_ClickFlg = false;
 };

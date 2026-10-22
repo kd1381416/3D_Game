@@ -19,6 +19,9 @@ void Player::Init()
 	m_spUpperModel = std::make_shared<KdModelWork>();
 	m_spUpperModel->SetModelData("Asset/Model/TankUpper/TankUpper.gltf");
 
+	m_HpTex = std::make_shared<KdTexture>();
+	m_HpTex->Load("Asset/Textures/PlayerHp.png");
+
 	if (!m_pDebugWire)
 	{
 		m_pDebugWire = std::make_unique<KdDebugWireFrame>();
@@ -29,11 +32,19 @@ void Player::Init()
 
 	m_stateChangeFlg = true;
 
-	m_pos = { 0.0f,1.0f,0.0f };
+	m_pos = { 0.0f,1.0f,-9.0f };
 }
 
 void Player::Update()
 {
+	if (m_Hp <= 0)
+	{
+		m_activeFlg = false;
+		SceneManager::Instance().SetPlayer(m_activeFlg);
+		SceneManager::Instance().SetNextScene(SceneManager::SceneType::Result);
+		return;
+	}
+
 //===================================================================
 // 移動処理
 //===================================================================
@@ -62,7 +73,7 @@ void Player::Update()
 			{
 				_bulletdir = _muzzlepos - _spTargetEnemy->GetAimPos();
 				_bulletdir.Normalize();
-				_bulletSpeed = -5.0f;
+				_bulletSpeed = -3.0f;
 			}
 			else
 			{
@@ -104,7 +115,7 @@ void Player::Update()
 					}
 				}
 
-				_bulletSpeed = 5.0f;
+				_bulletSpeed = 3.0f;
 			}
 
 			auto _bullet = std::make_shared<Bullet>();
@@ -117,14 +128,18 @@ void Player::Update()
 			case Player::PlayerState::Nomal:
 				m_shotFlg = false;
 				m_shotDilay = 60.0f;
+				m_spAudio->Instance().Play("Asset/Sound/Canon.wav", false);
 				break;
 			case Player::PlayerState::Gatling:
 				m_shotFlg = false;
 				m_gatlingCount++;
 
-				if (m_gatlingCount >= 100)
+				m_gatlingSoundFlg = true;
+
+				if (m_gatlingCount >= 25)
 				{
-					m_shotDilay = 120.0f;
+					m_shotDilay = 100.0f;
+					m_gatlingSoundFlg = false;
 				}
 				else { m_shotDilay = 3.0f; }
 				break;
@@ -132,6 +147,15 @@ void Player::Update()
 				break;
 			}
 		}
+
+		if (m_gatlingSoundFlg)
+		{
+			m_spAudio->Instance().Play("Asset/Sound/se_gun_fire10.wav", false);
+		}
+	}
+	else
+	{
+		m_gatlingSoundFlg = false;
 	}
 
 	m_shotDilay--;
@@ -140,7 +164,7 @@ void Player::Update()
 		m_shotFlg = true;
 		m_shotDilay = 0.0f;
 
-		if (m_gatlingCount >= 100) { m_gatlingCount = 0; }
+		if (m_gatlingCount >= 40) { m_gatlingCount = 0; }
 	}
 
 	//モード切り替え
@@ -179,11 +203,14 @@ void Player::Update()
 	_rotY = m_wpCamera.lock()->GetRotationYMatrix();
 	_trans = Math::Matrix::CreateTranslation(m_pos + Math::Vector3{ 0.0f,1.1f,0.0f });
 	m_upperMatrix = _scale * _rotY * _trans;
-	
 }
 
 void Player::PostUpdate()
 {
+	if (m_HitInterval >= 0)
+	{
+		--m_HitInterval;
+	}
 }
 
 void Player::DrawLit()
@@ -218,6 +245,22 @@ void Player::GenerateDepthMapFromLight()
 	default:
 		break;
 	}
+}
+
+void Player::OnHit()
+{
+	if (m_HitInterval <= 0)
+	{
+		m_Hp -= 10;
+		m_HitInterval = 30;
+	}
+}
+
+void Player::DrawSprite()
+{
+	Math::Rectangle	rec = { 0,0,128,32 };
+	Math::Color	color = { 1,1,1,0.8 };
+	KdShaderManager::Instance().m_spriteShader.DrawTex(m_HpTex, -600, -300, m_Hp * 3, 50, &rec, &color, Math::Vector2{ 0.0,0.5 });
 }
 
 void Player::MovePlayer()

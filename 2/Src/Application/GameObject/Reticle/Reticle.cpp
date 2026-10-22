@@ -43,15 +43,13 @@ void Retricle::Update()
 	//ターゲットの座標取得
 	Math::Vector3 _targetPos = _spTargetEnemy->GetAimPos();
 
-	//敵の少し上を狙うようにする
-	//_targetPos.y += 1.0f;
 
 	_spCamera->GetCamera()->ConvertWorldToScreenDetail(_targetPos, m_pos);
 		
 	//敵の距離に応じてサイズを変える
-	//float _distans = (_targetPos - _spCamera->GetPos()).Length();
+	// _distans = (_targetPos - _spCamera->GetPos()).Length();
 
-	Math::Matrix	_scale	= Math::Matrix::CreateScale(3.0f);
+	Math::Matrix	_scale	= Math::Matrix::CreateScale(5.0f);
 	Math::Matrix	_trans	= Math::Matrix::CreateTranslation(_targetPos);
 	Math::Matrix	_ratY	= _spCamera->GetRotationMatrix();
 	m_mWorld = _scale * _ratY *_trans;

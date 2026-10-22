@@ -4,13 +4,17 @@
 
 class TitleScene : public BaseScene
 {
-public :
+public:
 
-	TitleScene()  { Init(); }
-	~TitleScene() {}
+	TitleScene() { Init(); }
+	~TitleScene() {};
 
-private :
+private:
 
 	void Event() override;
 	void Init()  override;
+
+	std::shared_ptr <KdAudioManager>	m_spAudio;			//効果音
+
+	bool	m_ClickFlg = true;
 };
