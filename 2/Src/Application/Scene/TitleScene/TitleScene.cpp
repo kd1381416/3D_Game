@@ -5,7 +5,7 @@
 
 void TitleScene::Event()
 {
-	if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
+	if (GetAsyncKeyState('G') & 0x8000)
 	{
 		if (!m_ClickFlg)
 		{

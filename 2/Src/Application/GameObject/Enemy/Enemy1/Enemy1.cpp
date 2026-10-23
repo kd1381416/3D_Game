@@ -31,7 +31,7 @@ void Enemy1::Init()
 
 	ChangeState(MoveState::None);
 
-	m_pos	= { 0.0f,0.0f,15.0f };
+	m_pos	= { 0.0f,1.0f,15.0f };
 	m_aimPos = m_pos + Math::Vector3{ 0.0f, 0.0f, 0.0f };
 	m_scale = { 0.03f,0.03f,0.03f };
 
@@ -98,7 +98,11 @@ void Enemy1::Update()
 	if (m_moveFlg)
 	{
 		m_pos += m_dir * m_movePower;
-		m_pos.y = 0.0f;
+
+		if(m_currentState != MoveState::Attack)
+		{
+			m_pos.y = 0.0f;
+		}
 	}
 
 	//アニメーション処理	
@@ -232,7 +236,7 @@ void Enemy1::ChangeState(MoveState _nextState)
 		m_animetionFlg = true;
 
 		m_attackJumpSpeed	= 0.15f;
-		m_attackMoveSpeed	= 0.20f;
+		m_attackMoveSpeed	= 0.45f;
 		m_attackGravity		= 0.01f;
 		m_attackStarted		= false;
 		m_attackLanded		= false;
@@ -418,15 +422,14 @@ void Enemy1::Move()
 
 		if (_distance < _stopDistance + 0.1f)
 		{
-			m_movePower *= (_distance - _stopDistance) / 0.1f;
+			m_movePower *= (_distance - _stopDistance);
 
-			if (m_movePower > 0.5f)m_movePower = 0.5f;
+			if (m_movePower > 1.0f)m_movePower = 1.0f;
 		}
 	}
 	else
 	{
 		m_movePower = 0.0f;
-
 	}
 }
 

@@ -1,12 +1,12 @@
 ﻿#include "Player.h"
 
-#include<Application/Scene/SceneManager.h>
+#include <Application/Scene/SceneManager.h>
 
-#include<Application/GameObject/Camera/TPSCamera/TPSCamera.h>
+#include <Application/GameObject/Camera/TPSCamera/TPSCamera.h>
 
-#include<Application/GameObject/Bullet/Bullet.h>
+#include <Application/GameObject/Bullet/Bullet.h>
 
-#include<Application/GameObject/Enemy/EnemyBase.h>
+#include <Application/GameObject/Enemy/EnemyBase.h>
 
 void Player::Init()
 {
@@ -23,10 +23,19 @@ void Player::Init()
 	m_HpTex->Load("Asset/Textures/PlayerHp.png");
 
 	m_CannonTex = std::make_shared<KdTexture>();
-	m_CannonTex->Load("Asset/Textures/Game/Cannnon.png");
+	m_CannonTex->Load("Asset/Textures/Game/Cannon.png");
 
 	m_GatlingTex = std::make_shared<KdTexture>();
 	m_GatlingTex->Load("Asset/Textures/Game/Gatling.png");
+
+	m_NumberTex = std::make_shared<KdTexture>();
+	m_NumberTex->Load("Asset/Textures/Result/Number.png");
+
+	m_BoxTex = std::make_shared<KdTexture>();
+	m_BoxTex->Load("Asset/Textures/UI/Box.png");
+
+	m_WhiteTex = std::make_shared<KdTexture>();
+	m_WhiteTex->Load("Asset/Textures/UI/White.png");
 
 	if (!m_pDebugWire)
 	{
@@ -133,7 +142,7 @@ void Player::Update()
 			{
 			case Player::PlayerState::Nomal:
 				m_shotFlg = false;
-				m_shotDilay = 60.0f;
+				m_shotDilay = m_CannonDilay;
 				m_spAudio->Instance().Play("Asset/Sound/Canon.wav", false);
 				break;
 			case Player::PlayerState::Gatling:
@@ -144,7 +153,7 @@ void Player::Update()
 
 				if (m_gatlingCount >= m_gatlingMax)
 				{
-					m_shotDilay = 100.0f;
+					m_shotDilay = m_GatlingDilay;
 					m_gatlingSoundFlg = false;
 				}
 				else { m_shotDilay = 3.0f; }
@@ -170,7 +179,7 @@ void Player::Update()
 		m_shotFlg = true;
 		m_shotDilay = 0.0f;
 
-		if (m_gatlingCount >= 40) { m_gatlingCount = 0; }
+		if (m_gatlingCount >= m_gatlingMax) { m_gatlingCount = 0; }
 	}
 
 	//モード切り替え
@@ -264,9 +273,64 @@ void Player::OnHit()
 
 void Player::DrawSprite()
 {
+	m_Digits[0] = (m_gatlingMax - m_gatlingCount) / 10;
+	m_Digits[1] = (m_gatlingMax - m_gatlingCount) % 10;
+
+	// 画像内の数字の横位置
+	int numberanime[10] =
+	{
+		64 * 0,
+		64 * 1,
+		64 * 2,
+		64 * 3,
+		64 * 4,
+		64 * 5,
+		64 * 6,
+		64 * 7,
+		64 * 8,
+		64 * 9
+	};
+
 	Math::Rectangle	rec = { 0,0,128,32 };
 	Math::Color	color = { 1,1,1,0.8 };
 	KdShaderManager::Instance().m_spriteShader.DrawTex(m_HpTex, -600, -300, m_Hp * 3, 50, &rec, &color, Math::Vector2{ 0.0,0.5 });
+
+
+	switch (m_nowState)
+	{
+	case Player::PlayerState::Nomal:
+		color = { 1,1,1,0.5 };
+		KdShaderManager::Instance().m_spriteShader.DrawTex(m_WhiteTex, 275, -300, (m_CannonDilay - m_shotDilay) * (350 / m_CannonDilay), 100, &rec, &color, Math::Vector2{0.0f,0.5f});
+
+		rec = { 0,0,256,128 };
+		color = { 1,1,1,1 };
+		KdShaderManager::Instance().m_spriteShader.DrawTex(m_BoxTex, 450, -300, 350, 100, &rec, &color, Math::Vector2{ 0.5f,0.5f });
+
+		rec	= { 0,0,677,369 };
+		color	= { 1,1,1,1 };
+		KdShaderManager::Instance().m_spriteShader.DrawTex(m_CannonTex, 400, -300, 250, 250, &rec, &color, Math::Vector2{ 0.5f,0.5f });
+		break;
+	case Player::PlayerState::Gatling:
+		color = { 1,1,1,0.5 };
+		KdShaderManager::Instance().m_spriteShader.DrawTex(m_WhiteTex, 275, -300, (m_GatlingDilay - m_shotDilay) * 3.5, 100, &rec, &color, Math::Vector2{0.0f,0.5f});
+
+		rec = { 0,0,256,128 };
+		color = { 1,1,1,1 };
+		KdShaderManager::Instance().m_spriteShader.DrawTex(m_BoxTex, 450, -300, 350, 100, &rec, &color, Math::Vector2{ 0.5f,0.5f });
+
+		rec = { 0,0,677,369 };
+		color = { 1,1,1,1 };
+		KdShaderManager::Instance().m_spriteShader.DrawTex(m_GatlingTex, 400, -300, 220, 220, &rec, &color, Math::Vector2{ 0.5f,0.5f });
+
+		for (int i = 0; i < MaxDigits; i++)
+		{
+			Math::Rectangle numrec = { numberanime[m_Digits[i]], 0, 64,	64 };
+			Math::Color color = { 1, 1, 1, 1 };
+
+			KdShaderManager::Instance().m_spriteShader.DrawTex(m_NumberTex, 525 + i * 50, -300, 50, 50, &numrec, &color, Math::Vector2{ 0.5f, 0.5f });
+		}
+		break;
+	}
 }
 
 void Player::MovePlayer()

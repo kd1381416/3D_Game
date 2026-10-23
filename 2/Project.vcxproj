@@ -296,6 +296,7 @@
     <ClInclude Include="Src\Application\Scene\TitleScene\TitleScene.h" />
     <ClInclude Include="Src\Application\System\EnemySystem\EnemySystem.h" />
     <ClInclude Include="Src\Application\System\GameSystem\GameSystem.h" />
+    <ClInclude Include="Src\Application\System\UI\GameSceneUI\GameSceneUI.h" />
     <ClInclude Include="Src\Framework\Direct3D\KdMaterial.h" />
     <ClInclude Include="Src\Framework\Direct3D\Polygon\KdPolygon.h" />
     <ClInclude Include="Src\Framework\Direct3D\Polygon\KdSquarePolygon.h" />
@@ -368,6 +369,7 @@
     <ClCompile Include="Src\Application\Scene\TitleScene\TitleScene.cpp" />
     <ClCompile Include="Src\Application\System\EnemySystem\EnemySystem.cpp" />
     <ClCompile Include="Src\Application\System\GameSystem\GameSystem.cpp" />
+    <ClCompile Include="Src\Application\System\UI\GameSceneUI\GameSceneUI.cpp" />
     <ClCompile Include="Src\Framework\Direct3D\KdMaterial.cpp">
       <SubType>
       </SubType>

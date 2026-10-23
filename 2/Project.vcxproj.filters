@@ -145,6 +145,12 @@
     <Filter Include="Src\Application\GameObject\Enemy\Boss">
       <UniqueIdentifier>{7fc53dbc-ea39-4ff1-9d5b-5816d26a6d84}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\Application\System\UI">
+      <UniqueIdentifier>{dafcf4c8-e298-4f7a-834a-e6e92d2ff310}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\System\UI\GameSceneUI">
+      <UniqueIdentifier>{b16e8bfe-c0a4-4505-9642-7fe5511c737e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Pch.h">
@@ -378,6 +384,9 @@
     <ClInclude Include="Src\Application\GameObject\Title\Title.h">
       <Filter>Src\Application\GameObject\Title</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Application\System\UI\GameSceneUI\GameSceneUI.h">
+      <Filter>Src\Application\System\UI\GameSceneUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pch.cpp">
@@ -577,6 +586,9 @@
     </ClCompile>
     <ClCompile Include="Src\Application\GameObject\Title\Title.cpp">
       <Filter>Src\Application\GameObject\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\System\UI\GameSceneUI\GameSceneUI.cpp">
+      <Filter>Src\Application\System\UI\GameSceneUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

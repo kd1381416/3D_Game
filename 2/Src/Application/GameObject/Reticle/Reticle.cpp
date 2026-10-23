@@ -80,5 +80,5 @@ void Retricle::DrawBright()
 void Retricle::DrawSprite()
 {
 	if (!m_spReticleTexture) return;
-	KdShaderManager::Instance().m_spriteShader.DrawTex(m_spReticleTexture, m_pos.x, m_pos.y, 64, 64);
+	//KdShaderManager::Instance().m_spriteShader.DrawTex(m_spReticleTexture, m_pos.x, m_pos.y, 64, 64);
 }
